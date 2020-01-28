@@ -1,3 +1,3 @@
 # AlgoCasts
 
-Companion repo to a course on Udemy.com
+Interview questions provided by Stephen Grider to practice with Javascript
