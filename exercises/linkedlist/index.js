@@ -21,7 +21,7 @@ class LinkedList {
   size() {
     let counter = 0;
     let node = this.head;
-    while (node) {
+    while(node) {
       counter++;
       node = node.next;
     }
@@ -35,13 +35,12 @@ class LinkedList {
 
   getLast() {
     let node = this.head;
-
-    if (!node) {
-      return this.head;
-    }
-
-    while (node && node.next) {
-      node = node.next;
+    while (node) {
+      if (node.next) {
+        node = node.next;
+      } else {
+        return node;
+      }
     }
     return node;
   }
@@ -61,27 +60,23 @@ class LinkedList {
     if (!this.head) {
       return;
     }
-
-    if(!this.head.next) {
+    if (!this.head.next) {
       this.head = null;
-      return;
+      return
     }
-
-    let prevNode = null;
+    let previous_node = null;
     let node = this.head;
-
-    while (node && node.next) {
-      prevNode = node;
+    while (node.next) {
+      previous_node = node;
       node = node.next;
     }
-    prevNode.next = null;
+    previous_node.next = null;
   }
 
   insertLast(data) {
-    const lastNode = this.getLast();
-
-    if (lastNode) {
-      lastNode.next = new Node(data);
+    const last_node = this.getLast();
+    if (last_node){
+      last_node.next = new Node(data);
     } else {
       this.head = new Node(data);
     }
@@ -91,18 +86,18 @@ class LinkedList {
     let node = this.head;
     let counter = 0;
 
-    while (node) {
+    while(node) {
       if (counter === integer) {
         return node;
       }
-
-      counter++;
+      counter ++;
       node = node.next;
     }
     return null;
   }
 
   removeAt(index) {
+    // find target, find prev and next
     if(!this.head) {
       return;
     }
@@ -112,24 +107,24 @@ class LinkedList {
       return;
     }
 
-    let previous_node = this.getAt(index - 1);
-    let target_node = this.getAt(index);
-    let next_node = this.getAt(index + 1);
+    let target = this.getAt(index);
+    let prev = this.getAt(index - 1);
+    let next = this.getAt(index + 1);
 
-    if (!target_node) {
+    if (!target) {
       return null;
     }
-    if (!next_node) {
-      previous_node.next = null;
+
+    if (!next) {
+      prev.next = null
     } else {
-      previous_node.next = next_node;
+      prev.next = next;
     }
   }
 
   insertAt(data, index) {
-    // Create a new node, and assign at provided index
     if(!this.head) {
-      this.insertFirst(data);
+      return this.insertFirst(data);
     }
 
     if (index === 0) {
@@ -138,13 +133,12 @@ class LinkedList {
       return;
     }
 
-    let previous_node = this.getAt(index - 1) || this.getLast();
-    let target_node = this.getAt(index);
-    let next_node = this.getAt(index + 1);
+    let target = this.getAt(index);
+    let prev = this.getAt(index - 1) || this.getLast();
+    let next = this.getAt(index + 1);
 
-    const node = new Node(data, previous_node.next);
-    previous_node.next = node;
-
+    const new_node = new Node(data, prev.next);
+    prev.next = new_node;
   }
 
   forEach(fn) {
